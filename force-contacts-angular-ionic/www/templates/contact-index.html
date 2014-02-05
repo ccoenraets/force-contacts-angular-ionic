@@ -1,0 +1,22 @@
+<view title="'Contacts'">
+
+    <div class="bar bar-subheader item-input-inset">
+        <label class="item-input-wrapper">
+            <i class="icon ion-ios7-search placeholder-icon"></i>
+            <input id="searchKey" type="search" placeholder="Search" ng-model="searchKey" autocorrect="off" >
+            <button class="button button-clear" ng-click="clearSearch()">X</button>
+        </label>
+        <button class="button button-clear" ng-click="search()">Search</button>
+    </div>
+
+    <content has-header="true" has-subheader="true">
+        <list>
+            <item ng-repeat="contact in contacts" type="item-text-wrap" href="#/contact/{{contact.Id}}">
+                <h3>{{contact.Name}}</h3>
+                <p>{{contact.Title}}</p>
+            </item>
+            </item>
+        </list>
+    </content>
+
+</view>
