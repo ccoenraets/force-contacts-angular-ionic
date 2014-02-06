@@ -1,6 +1,6 @@
 angular.module('contactmgr.services', [])
 
-    .factory('OAuth', function($q) {
+    .factory('OAuthService', function($q) {
 
         var apiVersion = "v29.0", // The version of the REST API you wish to use in your app.
             forcetkClient,
@@ -50,11 +50,11 @@ angular.module('contactmgr.services', [])
 
     })
 
-    .factory('ContactService', function($q, OAuth) {
+    .factory('ContactService', function($q, OAuthService) {
 
         function query(queryStr) {
             var deferred = $q.defer();
-            OAuth.getClient().query(queryStr,
+            OAuthService.getClient().query(queryStr,
                 function(response) {
                     var contacts = response.records;
                     deferred.resolve(contacts);

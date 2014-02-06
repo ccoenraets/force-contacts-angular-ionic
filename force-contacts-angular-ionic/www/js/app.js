@@ -27,12 +27,12 @@ angular.module('contactmgr', ['ionic', 'contactmgr.services', 'contactmgr.contro
 
     })
 
-    .run(function(OAuth) {
+    .run(function(OAuthService) {
 
         // Not using Ionic "Platform" to listen to device ready because this application is using the Mobile SDK
         // which is built on top of Cordova 2.3
         document.addEventListener("deviceready", function() {
-            OAuth.initialize().then(
+            OAuthService.initialize().then(
                 function() {
                     window.location.hash = "contacts";
                 },
