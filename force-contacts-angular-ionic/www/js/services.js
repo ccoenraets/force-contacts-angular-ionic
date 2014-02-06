@@ -71,12 +71,21 @@ angular.module('contactmgr.services', [])
                 return query('SELECT Id, Name, Title FROM contact LIMIT 50');
             },
 
-            findById: function(contactId) {
-                return query('SELECT Id, Name, Title, Department, Phone, MobilePhone, Email FROM Contact WHERE Id=\'' + contactId + '\'');
-            },
-
             findByName: function(searchKey) {
                 return query('SELECT Id, Name, Title FROM contact WHERE name LIKE \'%' + searchKey + '%\' LIMIT 50');
+            },
+
+            findById: function(contactId) {
+                var deferred = $q.defer();
+                OAuthService.getClient().retrieve('Contact', contactId, ['Id', 'Name', 'Title', 'Department', 'Phone', 'MobilePhone', 'Email'],
+                    function(contact) {
+                        deferred.resolve(contact);
+                    },
+                    function(error) {
+                        alert(JSON.stringify(error));
+                        deferred.fail(error);
+                    });
+                return deferred.promise;
             }
 
         }

@@ -28,6 +28,6 @@ angular.module('contactmgr.controllers', [])
 
     .controller('ContactDetailCtrl', function ($scope, $stateParams, ContactService) {
         ContactService.findById($stateParams.contactId).then(function(contact) {
-            $scope.contact = contact[0];
+            $scope.contact = contact;
         });
     });
