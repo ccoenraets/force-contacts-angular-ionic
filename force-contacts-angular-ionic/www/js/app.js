@@ -6,7 +6,7 @@
 angular.module('contactmgr', ['ionic', 'contactmgr.services', 'contactmgr.controllers'])
 
 
-    .config(function ($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider) {
         // Ionic uses AngularUI Router which uses the concept of states
         // Learn more here: https://github.com/angular-ui/ui-router
         // Set up the various states which the app can be in.
@@ -25,7 +25,19 @@ angular.module('contactmgr', ['ionic', 'contactmgr.services', 'contactmgr.contro
                 controller: 'ContactDetailCtrl'
             });
 
-        // if none of the above states are matched, use this as the fallback
-        $urlRouterProvider.otherwise('/contacts');
+    })
 
+    .run(function(OAuth) {
+
+        // Not using Ionic "Platform" to listen to device ready because this application is using the Mobile SDK
+        // which is built on top of Cordova 2.3
+        document.addEventListener("deviceready", function() {
+            OAuth.initialize().then(
+                function() {
+                    window.location.hash = "contacts";
+                },
+                function() {
+                    alert('Authentication error');
+                });
+        });
     });

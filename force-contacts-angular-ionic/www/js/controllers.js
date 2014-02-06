@@ -7,20 +7,22 @@ angular.module('contactmgr.controllers', [])
         $scope.clearSearch = function () {
             $scope.searchKey = "";
             findAllContacts();
-        }
+        };
 
         $scope.search = function () {
             ContactService.findByName($scope.searchKey).then(function (contacts) {
                 console.log(contacts);
                 $scope.contacts = contacts;
             });
-        }
+        };
 
         var findAllContacts = function() {
             ContactService.findAll().then(function (contacts) {
                 $scope.contacts = contacts;
             });
-        }
+        };
+
+        findAllContacts();
 
     })
 

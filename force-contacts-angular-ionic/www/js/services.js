@@ -1,12 +1,12 @@
 angular.module('contactmgr.services', [])
 
-    .factory('ContactService', function($q) {
+    .factory('OAuth', function($q) {
 
         var apiVersion = "v29.0", // The version of the REST API you wish to use in your app.
             forcetkClient,
             oauth;
 
-        function getAuthCredentials() {
+        function initialize() {
             var deferred = $q.defer();
 
             oauth = cordova.require("salesforce/plugin/oauth");
@@ -41,9 +41,20 @@ angular.module('contactmgr.services', [])
             forcetkClient.setUserAgentString(credsData.userAgent);
         }
 
+        return {
+            initialize: initialize,
+            getClient: function() {
+                return forcetkClient;
+            }
+        }
+
+    })
+
+    .factory('ContactService', function($q, OAuth) {
+
         function query(queryStr) {
             var deferred = $q.defer();
-            forcetkClient.query(queryStr,
+            OAuth.getClient().query(queryStr,
                 function(response) {
                     var contacts = response.records;
                     deferred.resolve(contacts);
@@ -54,10 +65,6 @@ angular.module('contactmgr.services', [])
                 });
             return deferred.promise;
         }
-
-        document.addEventListener("deviceready", function() {
-            getAuthCredentials();
-        });
 
         return {
             findAll: function() {
